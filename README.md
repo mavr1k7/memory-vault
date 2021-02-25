@@ -10,4 +10,20 @@ An computer-assisted photo journaling app
 6. Install Expo Go on [Android](https://play.google.com/store/apps/details?id=host.exp.exponent) or [iOS](https://apps.apple.com/us/app/expo-go/id982107779).
 7. Download and install [git](https://git-scm.com/download/win).
 8. Launch Git and clone this repository.
-9. 
+> If you have a MAC, make sure the XCode is set up to use an iPhone emulator
+
+### How to run
+1. Open CMD prompt.
+2. Navigate to the cloned repository.
+3. Run `expo start`. _(you may need to run npm install expo if expo isn't recognized)_.
+4. A browser window should open.
+
+CMD:
+- To run on android emulator or phone connected with USB, make sure emulator is running: Click `a`.
+- To run in the web: Click `w`.
+- Honestly no idea how to run it on an iPhone. Google it?
+
+Expo Go App:
+- Scan the QR code displayed in the terminal or browser window.
+- Scan for nearby Expo sessions.
+- Login to expo in CMD, and in the Expo Go app. Running Sessions will be listed.
