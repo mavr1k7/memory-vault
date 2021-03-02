@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function PartiesScreen() {
+export default function CreateScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.instructions}>Parties</Text>
+      <Text style={styles.instructions}>Friends</Text>
     </View>
   );
 }

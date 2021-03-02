@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function BlocksScreen() {
+export default function ViewScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.instructions}>Blocks</Text>
+      <Text style={styles.instructions}>Parties</Text>
     </View>
   );
 }

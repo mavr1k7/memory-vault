@@ -12,14 +12,14 @@ import JoinBlockScreen from './screens/home_stack/JoinBlockScreen';
 import InvitationCodeScreen from './screens/home_stack/InvitationCodeScreen';
 import SearchBlocksScreen from './screens/home_stack/SearchBlocksScreen';
 
-// Friends Stack
-import FriendsScreen from './screens/friends_stack/FriendsScreen';
+// Create Stack
+import CreateScreen from './screens/create_stack/CreateScreen';
 
-// Parties Stack
-import PartiesScreen from './screens/parties_stack/PartiesScreen';
+// View Memories Stack
+import ViewScreen from './screens/view_stack/ViewScreen';
 
-// Blocks Stack
-import BlocksScreen from './screens/blocks_stack/BlocksScreen';
+// Search Memories Stack
+import SearchScreen from './screens/search_stack/SearchScreen';
 
 // Profile Stack
 import ProfileScreen from './screens/profile_stack/ProfileScreen';
@@ -70,16 +70,16 @@ const HomeStack = createStackNavigator({
 
 });
 
-const FriendsStack = createStackNavigator({
-  Friends: { screen: FriendsScreen },
+const CreateStack = createStackNavigator({
+  Create: { screen: CreateScreen },
 });
 
-const PartiesStack = createStackNavigator({
-  Parties: { screen: PartiesScreen },
+const ViewStack = createStackNavigator({
+  View: { screen: ViewScreen },
 });
 
-const BlocksStack = createStackNavigator({
-  Blocks: { screen: BlocksScreen },
+const SearchStack = createStackNavigator({
+  Search: { screen: SearchScreen },
 });
 
 const ProfileStack = createStackNavigator({
@@ -92,31 +92,31 @@ const AppTabNavigator = createBottomTabNavigator({
   Home: {
     screen: HomeStack,
     navigationOptions: {
-      tabBarIcon: ({ focused }) => <Icon focused={focused} name="md-home" />,
+      tabBarIcon: ({ focused }) => <Icon focused={focused} size={25} name="md-home" />,
     }
   },
-  Friends: {
-    screen: FriendsStack,
+  Create: {
+    screen: CreateStack,
     navigationOptions: {
-      tabBarIcon: ({ focused }) => <Icon focused={focused} name="md-people" />,
+      tabBarIcon: ({ focused }) => <Icon focused={focused} size={25} name="md-add"/>,
     }
   },
-  Parties: {
-    screen: PartiesStack,
+  View: {
+    screen: ViewStack,
     navigationOptions: {
-      tabBarIcon: ({ focused }) => <Icon focused={focused} name="md-american-football" />,
+      tabBarIcon: ({ focused }) => <Icon focused={focused} size={25} name="md-grid" />,
     }
   },
-  Blocks: {
-    screen: BlocksStack,
+  Search: {
+    screen: SearchStack,
     navigationOptions: {
-      tabBarIcon: ({ focused }) => <Icon focused={focused} name="md-square-outline" />,
+      tabBarIcon: ({ focused }) => <Icon focused={focused} size={25} name="md-search" />,
     }
   },
   Profile: {
     screen: ProfileStack,
     navigationOptions: {
-      tabBarIcon: ({ focused }) => <Icon focused={focused} name="md-person" />,
+      tabBarIcon: ({ focused }) => <Icon focused={focused} size={25} name="md-person" />,
     }
   }
 }, {

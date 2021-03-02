@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function FriendsScreen() {
+export default function SearchScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.instructions}>Friends</Text>
+      <Text style={styles.instructions}>Blocks</Text>
     </View>
   );
 }
