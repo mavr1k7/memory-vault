@@ -6,7 +6,7 @@ export default function HomeScreen(props) {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require('../../assets/logo/logo.png')} />
+      <Image style={styles.logo} source={require('../../assets/logo/Asset_6.png')} />
       <View>
         <TouchableOpacity
           style={styles.button}
@@ -61,7 +61,6 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: '80%',
-    height: undefined,
-    aspectRatio: 1812 / 1289
+    resizeMode: 'contain',
   },
 });

@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function CreateScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.instructions}>Friends</Text>
+      <Text style={styles.instructions}>Create Memory</Text>
     </View>
   );
 }

@@ -37,7 +37,7 @@ export default function LoginScreen(props) {
         <KeyboardAvoidingView behavior={"height"} style={styles.view}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.container}>
-                    <Image style={styles.logo} source={require('../../assets/logo/logo.png')} />
+                    <Image style={styles.logo} source={require('../../assets/logo/Asset_6.png')} />
                     <TextInput
                         style={styles.input}
                         placeholder="Email"
@@ -78,8 +78,7 @@ const styles = StyleSheet.create({
     },
     logo: {
         width: '80%',
-        height: undefined,
-        aspectRatio: 1812 / 1289
+        resizeMode: 'contain',
     },
     input: {
         borderBottomColor: 'black',

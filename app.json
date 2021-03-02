@@ -4,9 +4,9 @@
     "slug": "memory-vault",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo/Asset_7.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logo/Asset_7.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -20,7 +20,7 @@
       "supportsTablet": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/logo/Asset_7.png"
     }
   }
 }
