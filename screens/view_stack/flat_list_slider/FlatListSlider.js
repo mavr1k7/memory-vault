@@ -127,15 +127,16 @@ export default class FlatListSlider extends Component {
     onViewableItemsChanged = ({viewableItems, changed}) => {
         if (viewableItems.length > 0) {
             let currentIndex = viewableItems[0].index;
-            if (
+            if ( // If we are viewing the second to last image and set to loop images
                 currentIndex % this.props.data.length === this.props.data.length - 1 &&
                 this.props.loop
-            ) {
+            ) {  // Duplicate data on the end of the data list
                 this.setState({
                     index: currentIndex,
                     data: [...this.state.data, ...this.props.data],
                 });
             } else {
+                // Just set current viewed image
                 this.setState({index: currentIndex});
             }
 

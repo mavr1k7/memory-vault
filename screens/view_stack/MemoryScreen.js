@@ -10,11 +10,11 @@ export default function MemoryScreen(props) {
     // TODO: get all images from memory when memories are no longer dummy data
     const IMAGES = [
         {
-            image: memory.image,
+            image: memory.images[0],
             desc: "Description 1",
         },
         {
-            image: require('./temp_images/img006.jpg'),
+            image: memory.images[1],
             desc: "Description 2 is much longer than Description 1",
         },
     ]
@@ -32,8 +32,8 @@ export default function MemoryScreen(props) {
                         loop={false}
                         autoscroll={false}
                         onPress={item => {}} // TODO: Create an image viewer?
-                        indicator
-                        animation
+                        indicator={true}
+                        animation={true}
                     />
                     <View style={styles.spacer}/>
                     <Text style={styles.title}>{memory.title}</Text>
