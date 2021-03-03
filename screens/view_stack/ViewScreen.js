@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View, FlatList, ImageBackground, SafeAreaView, TouchableOpacity} from 'react-native';
 
 //TODO: Get real data from the database
-const TEMP_DATA = [
+const DATA = [
   {
     id: '1',
     title: 'Memory 1',
@@ -36,42 +36,51 @@ const TEMP_DATA = [
 
 ];
 
-const Memory = ({ item, index }) => (
-    <View style={styles.item}>
-      <ImageBackground
-        style={styles.memory_image}
-        source={item.image}
-      >
-        <View style={styles.memory_spacer}>{index}</View>
-        <Text style={styles.memory_title}>{item.title}</Text>
-      </ImageBackground>
-    </View>
-);
-
 const ViewScreen = (props) => {
-  const renderItem = ({ item }) => (
-      <Memory item={item}/>
+  // Defines a Memory tag to be used in the FlatList
+  const Memory = ({ item, index }) => (
+      <TouchableOpacity style={styles.memory_block} onPress={() => {
+        props.navigation.navigate('Memory', {
+          memory: item,
+          title: "TEST NAME",
+        });
+      }}>
+        <ImageBackground
+            style={styles.memory_image}
+            source={item.image}
+        >
+          <View style={styles.memory_spacer}/>
+          <Text style={styles.memory_title}>{item.title}</Text>
+        </ImageBackground>
+      </TouchableOpacity>
   );
+
+  // Renders a Memory block and passes in the item to be rendered
+  const renderItem = ({ item, index }) => {
+    return (<Memory item={item} index={index}/>);
+  };
 
   return (
       <SafeAreaView style={styles.container}>
         <FlatList
-            data={TEMP_DATA}
+            data={DATA}
             renderItem={renderItem}
             keyExtractor={item => item.id}
             numColumns={2}
             ListEmptyComponent={<View style={styles.no_items}>
-                                  <Text>You have no saved memories. Add one now!</Text>
-                                  <TouchableOpacity
-                                      style={styles.button}
-                                      onPress={() => props.navigation.navigate("Create")}>
-                                    <Text>New Memory</Text>
-                                  </TouchableOpacity>
+                                  <View>
+                                    <Text>You have no saved memories. Add one now!</Text>
+                                    <TouchableOpacity
+                                        style={styles.button}
+                                        onPress={() => props.navigation.navigate("Create")}>
+                                      <Text>New Memory</Text>
+                                    </TouchableOpacity>
+                                  </View>
                                 </View>}
         />
       </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -86,15 +95,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     marginBottom: 10,
   },
-  item: {
-    backgroundColor: '#cccccc',
-    width: '49%',
-    height: 200,
-    marginVertical: 1,
-    marginHorizontal: 1,
-  },
   no_items:{
+    flex: 1,
     alignItems: "center",
+    justifyContent: "center",
     width: '100%',
     padding: 10,
   },
@@ -106,6 +110,13 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 5,
   },
+  memory_block: {
+    backgroundColor: '#cccccc',
+    width: '49%',
+    height: 200,
+    marginVertical: 1,
+    marginHorizontal: 1,
+  },
   memory_title: {
     fontSize: 20,
     backgroundColor: '#cccccc66',
@@ -114,9 +125,6 @@ const styles = StyleSheet.create({
   },
   memory_spacer: {
     flex: 1,
-  },
-  description: {
-    fontSize: 20,
   },
   memory_image: {
     width: '100%',

@@ -17,6 +17,7 @@ import CreateScreen from './screens/create_stack/CreateScreen';
 
 // View Memories Stack
 import ViewScreen from './screens/view_stack/ViewScreen';
+import MemoryScreen from './screens/view_stack/MemoryScreen';
 
 // Search Memories Stack
 import SearchScreen from './screens/search_stack/SearchScreen';
@@ -71,15 +72,16 @@ const HomeStack = createStackNavigator({
 });
 
 const CreateStack = createStackNavigator({
-  Create: { screen: CreateScreen },
+  Create: { screen: CreateScreen, navigationOptions: {title: "Save New Memory"} },
 });
 
 const ViewStack = createStackNavigator({
-  View: { screen: ViewScreen },
+  View: { screen: ViewScreen, navigationOptions: {title: "Saved Memories"} },
+  Memory: { screen: MemoryScreen, navigationOptions: {title: ""} },
 });
 
 const SearchStack = createStackNavigator({
-  Search: { screen: SearchScreen },
+  Search: { screen: SearchScreen, navigationOptions: {title: "Search Memories"} },
 });
 
 const ProfileStack = createStackNavigator({
