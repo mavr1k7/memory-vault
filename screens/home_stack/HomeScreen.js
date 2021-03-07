@@ -1,8 +1,8 @@
 import React from 'react';
 import {StyleSheet, Text, View, ScrollView, Dimensions, SafeAreaView, TouchableOpacity, Alert, Image, ImageBackground, LayoutAnimation} from 'react-native';
 import FlatListSlider from "../tools/flat_list_slider/FlatListSlider";
-import MemoryTag from "../tools/MemoryTag";
-import TagList from "../tools/TagList";
+import MemoryTag from "../tools/tag_list/MemoryTag";
+import TagList from "../tools/tag_list/TagList";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 //import Swiper from 'react-native-swiper'
