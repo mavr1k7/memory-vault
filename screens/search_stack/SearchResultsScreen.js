@@ -50,20 +50,22 @@ export default class SearchResultsScreen extends Component {
     static defaultProps = {
         searchText: '',
         searchTags: [],
+        viewStack: false,
         // startDate: '',
         // endDate: '',
     }
 
     render() {
         let searchText = this.props.navigation.state.params.searchText;
-        console.log("Search text:" + searchText.toString());
+        let searchTags = this.props.navigation.state.params.searchTags;
+        let viewStack = this.props.navigation.state.params.viewStack;
         // Search through memories and populate the results array for display
         var results = []
         let textResults = []
         let tagResults = []
         for (var i = 0; i < memories.length; i++){
             let memory = memories[i];
-            if (searchText !== ''){
+            if (searchText != null || searchText !== ''){
                 if (memory.title.toLowerCase().includes(searchText.toLowerCase())){
                     textResults.push(memory);
                 } else if (memory.description.toLowerCase().includes(searchText.toLowerCase())){
@@ -73,11 +75,11 @@ export default class SearchResultsScreen extends Component {
                 textResults = memories;
             }
             // Check for memories with matching tags
-            if (this.props.searchTags.length > 0) {
+            if (searchTags.length > 0) {
                 let matchesTags = true;
-                for (var j = 0; j < this.props.searchTags.length; j++){
-                    let tag = this.props.searchTags[j];
-                    if (!memory.tags.contains(tag)){
+                for (var j = 0; j < searchTags.length; j++){
+                    let tag = searchTags[j];
+                    if (!memory.tags.some(e => e.tag === tag.tag)){
                         matchesTags = false;
                     }
                 }
@@ -90,16 +92,19 @@ export default class SearchResultsScreen extends Component {
         }
         results = textResults.filter(value => tagResults.includes(value));
         // Compute intersection of textResults and tagResults
-        console.log(textResults.length, tagResults.length, results.length);
-
 
         // Defines a Memory tag to be used in the FlatList
         const Memory = ({ item, index }) => (
             <TouchableOpacity style={styles.memory_block} onPress={() => {
-                this.props.navigation.navigate('SearchMemory', {
-                    memory: item,
-                    title: "TEST NAME",
-                });
+                if (viewStack) {
+                    this.props.navigation.navigate('SearchMemory', {
+                        memory: item,
+                    });
+                } else {
+                    this.props.navigation.navigate('Memory', {
+                        memory: item,
+                    });
+                }
             }}>
                 <Image
                     style={styles.memory_image}

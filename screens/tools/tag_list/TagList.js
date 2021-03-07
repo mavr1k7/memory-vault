@@ -11,9 +11,13 @@ export default class TagList extends Component {
         super(props)
     }
 
-    onTagPress = this.props.onTagPress ? this.props.onTagPress: () => {
-        // TODO: Open Search view for tag
-        console.log("Tag is pressed");
+    onTagPress = this.props.onTagPress ? this.props.onTagPress: (tag) => {
+        console.log(tag)
+        this.props.navigation.navigate("ViewTag", {
+            searchText: '',
+            searchTags: [tag],
+            viewStack: true,
+        });
     };
 
 

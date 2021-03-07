@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, SafeAreaView, ScrollView} from 'react-native';
-import TagList from "../tools/TagList";
+import TagList from "../tools/tag_list/TagList";
 
-var allTags = [{tag:'tag1', id: '0'}, {tag: 'tag2', id: '1'}, {tag: 'tag3tag3tag3tag3', id: '2'}, {tag: 'tag4', id: '3'},
+var allTags = [{tag:'tag1', id: '0'}, {tag: 'tag2', id: '1'}, {tag: 'tag3', id: '9'}, {tag: 'tag3tag3tag3tag3', id: '2'}, {tag: 'tag4', id: '3'},
   {tag: 'tag5', id: '4'}, {tag: 'tag6', id: '5'}, {tag: 'tag7', id: '6'}, {tag: 'tag8', id: '7'}, {tag: 'tag9', id: '8'},];
 var appliedTags = [];
 var filteredTags = allTags;
@@ -54,7 +54,7 @@ export default class SearchScreen extends Component {
                   onTagPress={this.onTagAdd}
               />
             </KeyboardAvoidingView>
-            <Text style={styles.subtitle}>Probably add a date range?</Text>
+            {/* TODO: Add a date range to the search */}
             <View style={{flex: 1, flexDirection: 'column-reverse'}}>
               <View style={{flexDirection: 'row', marginBottom: 30,}}>
                 <TouchableOpacity
@@ -89,12 +89,12 @@ export default class SearchScreen extends Component {
   }
 
   onSearch = () => {
+    console.log('applied Tags', appliedTags.length);
     this.props.navigation.navigate("SearchResults",
         {
           searchText: this.state.searchInput,
+          searchTags: appliedTags,
         });
-
-
   }
 
   onTagFilter = (inputText) => {

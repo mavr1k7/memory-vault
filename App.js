@@ -32,7 +32,7 @@ import LoginScreen from './screens/login_stack/LoginScreen';
 
 import RegisterScreen from './screens/login_stack/RegisterScreen';
 import FlatListSlider from "./screens/tools/flat_list_slider/FlatListSlider";
-import MemoryTag from "./screens/tools/MemoryTag"
+import MemoryTag from "./screens/tools/tag_list/MemoryTag"
 
 const firebaseConfig = {
   apiKey: "***REMOVED***",
@@ -82,6 +82,7 @@ const CreateStack = createStackNavigator({
 const ViewStack = createStackNavigator({
   View: { screen: ViewScreen, navigationOptions: {title: "Saved Memories"} },
   Memory: { screen: MemoryScreen, navigationOptions: {title: ""} },
+  ViewTag: { screen: SearchResultsScreen, navigationOptions: {title: "View Tag"}},
 });
 
 const SearchStack = createStackNavigator({
