@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Platform, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, KeyboardAvoidingView, Image, View, Platform, TouchableOpacity, Keyboard, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import Constants from 'expo-constants';
-import Database from '../../database'
+import Database from '../../database';
+import Icon from '@expo/vector-icons/Ionicons';
+import { TextInput } from 'react-native-gesture-handler';
 
 export default function MemoryPicker() {
-  const [images, setImages] = useState(null);
+  const [image, setImage] = useState(null);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -24,19 +27,23 @@ export default function MemoryPicker() {
     conn.transaction(tx => {
       tx.executeSql('drop table if exists images;');
       tx.executeSql(
-        'create table if not exists images (id integer primary key not null, image string);'
-      );
-      tx.executeSql('select * from images;',
-        [],
-        (_, { rows: { _array } }) => setImages(_array)
+        'create table if not exists images (id integer primary key not null, path string, title string, description string);'
       );
     });
   }, []);
 
+  const titleInputHandler = inputTitle => {
+    setTitle(inputTitle);
+  };
+
+  const descriptionInputHandler = inputDescription => {
+    setDescription(inputDescription);
+  };
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      base64: true,
+      aspect: [4, 3],
       allowsEditing: true,
       quality: 0.1,
     });
@@ -44,35 +51,84 @@ export default function MemoryPicker() {
     console.log(result);
 
     if (!result.cancelled) {
-      conn.transaction(tx => {
-        tx.executeSql('insert into images (image) values (?)', [result.uri]);
-        tx.executeSql(
-          'select * from images;',
-          [],
-          (_, { rows: { _array } }) => setImages(_array)
-        );
-      });
+      setImage(result.uri);
     }
   };
 
+  const saveMemory = (uri, title, description) => {
+    conn.transaction(tx => {
+      tx.executeSql('insert into images (path, title, description) values (?, ?, ?);', [uri, title, description]);
+      tx.executeSql('select * from images', [], (_, { rows }) =>
+        console.log(JSON.stringify(rows))
+      );
+    });
+  }
+
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button title="Pick an image from camera roll" onPress={pickImage} />
-      {images && images.map(({id, image}) => (
-        <Image key={id} source={{ uri: image }} style={{ width: 200, height: 200 }} />
-        // <Text key={id} style={{ color: '#000' }}>{image}</Text>
-      ))}
-      <TouchableOpacity 
-        style={{ backgroundColor: '#1c9963'}} 
-        onPress={() => 
-          conn.transaction(
-            tx => {
-              tx.executeSql('drop table if exists images;');
-            }
-          )
-        }>
-          <Text>Drop Table</Text>
-      </TouchableOpacity>
-    </View>
+    <KeyboardAvoidingView behavior={"height"} style={styles.view}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          {!image && <TouchableOpacity onPress={pickImage}>
+            <Icon size={100} name="md-camera"/>
+          </TouchableOpacity>}
+          {image && <Image source={{ uri: image }} style={styles.image} />}
+          {image && <TextInput
+            style={styles.input}
+            placeholder="Title"
+            autoCapitalize="none"
+            autoCorrect={false}
+            onChangeText={titleInputHandler}
+          />}
+          {image && <TextInput
+            style={styles.input_large}
+            multiline
+            placeholder="What is happening in this picture?"
+            autoCapitalize="none"
+            autoCorrect={false}
+            onChangeText={descriptionInputHandler}
+          />}
+          {image && <TouchableOpacity style={styles.submit} onPress={() => saveMemory(image, title, description)}>
+            <Text>Save</Text>
+          </TouchableOpacity>}
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  view: {
+    flex: 1
+  },
+  container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      paddingVertical: '5%',
+  },
+  image: {
+    width: '80%',
+    height: '40%'
+  },
+  input: {
+      borderBottomColor: 'black',
+      borderBottomWidth: 2,
+      width: '80%',
+      height: 50
+  },
+  input_large: {
+    borderBottomColor: 'black',
+    borderBottomWidth: 2,
+    width: '80%',
+    flex: 1,
+    paddingVertical: 10,
+    textAlignVertical: 'top'
+  },
+  submit: {
+    alignItems: 'center',
+    marginTop: 10,
+    backgroundColor: '#03b2a0',
+    padding: 10,
+    borderRadius: 5,
+}
+});
