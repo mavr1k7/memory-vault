@@ -21,6 +21,7 @@ import MemoryScreen from './screens/view_stack/MemoryScreen';
 
 // Search Memories Stack
 import SearchScreen from './screens/search_stack/SearchScreen';
+import SearchResultsScreen from "./screens/search_stack/SearchResultsScreen";
 
 // Profile Stack
 import ProfileScreen from './screens/profile_stack/ProfileScreen';
@@ -28,7 +29,10 @@ import ProfileEditScreen from './screens/profile_stack/ProfileEditScreen';
 
 // Login Stack
 import LoginScreen from './screens/login_stack/LoginScreen';
+
 import RegisterScreen from './screens/login_stack/RegisterScreen';
+import FlatListSlider from "./screens/tools/flat_list_slider/FlatListSlider";
+import MemoryTag from "./screens/tools/MemoryTag"
 
 const firebaseConfig = {
   apiKey: "***REMOVED***",
@@ -82,6 +86,8 @@ const ViewStack = createStackNavigator({
 
 const SearchStack = createStackNavigator({
   Search: { screen: SearchScreen, navigationOptions: {title: "Search Memories"} },
+  SearchResults: { screen: SearchResultsScreen, navigationOptions: {title: "Results"} },
+  SearchMemory: { screen: MemoryScreen, navigationOptions: {title: ""}},
 });
 
 const ProfileStack = createStackNavigator({

@@ -1,6 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList, Image, Dimensions, SafeAreaView} from 'react-native';
-import FlatListSlider from "./flat_list_slider/FlatListSlider";
+import {StyleSheet, Text, View, ScrollView, Dimensions, SafeAreaView, FlatList, TouchableOpacity} from 'react-native';
+import FlatListSlider from "../tools/flat_list_slider/FlatListSlider";
+import MemoryTag from "../tools/MemoryTag";
+import TagList from "../tools/TagList";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -46,7 +48,9 @@ export default function MemoryScreen(props) {
                     TODO: display tags
                      */}
 
-
+                     <TagList
+                        tags={memory.tags}
+                     />
                 </ScrollView>
             </SafeAreaView>
         </View>
@@ -75,5 +79,5 @@ const styles = StyleSheet.create({
     },
     spacer: {
         height: 20,
-    }
+    },
 });
