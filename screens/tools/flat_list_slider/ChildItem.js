@@ -11,14 +11,14 @@ export default ({
                  height
                 }) => {
     return (
-        <View
+        <TouchableOpacity
             style={styles.container}
             onPress={() => onPress(index)}>
             <Image
                 style={[styles.image, style, {height: height}]}
                 source={local ? item[imageKey] : {uri: item[imageKey]}}
             />
-        </View>
+        </TouchableOpacity>
     );
 };
 
