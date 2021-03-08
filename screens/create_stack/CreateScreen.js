@@ -61,6 +61,7 @@ export default function MemoryPicker() {
       tx.executeSql('select * from images', [], (_, { rows }) =>
         console.log(JSON.stringify(rows))
       );
+      setImage(null);
     });
   }
 
