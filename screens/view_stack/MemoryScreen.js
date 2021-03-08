@@ -26,6 +26,7 @@ export default class MemoryScreen extends Component {
             <View style={styles.container}>
                 <SafeAreaView>
                     <ScrollView>
+                        <View style={styles.spacer}/>
                         <FlatListSlider
                             data={IMAGES}
                             imageKey={'image'}

@@ -107,14 +107,18 @@ export default function HomeScreen(props) {
                 <FlatListSlider
                     data={IMAGES}
                     imageKey={'image'}
-                    ListHeaderComponent={'Test'}
                     width={SCREEN_WIDTH}
                     local={true}
                     separator={0}
                     loop={true}
                     autoscroll={true}
                     timer={7000}
-                    onPress={item => {}} // TODO: View memory
+                    onPress={index =>
+                        {console.log(index)
+                        props.navigation.navigate('HomeMemory', {
+                        memory: data[index],
+
+                        })}}
                     indicator={true}
                     animation={true}
                 />
@@ -162,8 +166,8 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    backgroundColor: "#F8EB23",
-    borderColor: "#2483C5",
+    backgroundColor: "#00B19E",
+    borderColor: "#00B142",
     color: "#000000",
     borderRadius: 5,
     padding: 10,
