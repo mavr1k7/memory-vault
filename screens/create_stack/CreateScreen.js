@@ -7,6 +7,7 @@ import TagList from "../tools/tag_list/TagList";
 import { TextInput } from 'react-native-gesture-handler';
 
 export default function MemoryPicker(props) {
+  const [forceUpdate, forceUpdateId] = useForceUpdate()
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -63,15 +64,25 @@ export default function MemoryPicker(props) {
     if (inputTags[inputTags.length -1] === ',') {
       var oldTags = tags;
       var tag = inputTags.substring(0, inputTags.length - 1);
-      console.log(tag)
       oldTags.push({
         tag:   tag,
         id: Math.random().toString(),
       });
-      console.log("tags: " + JSON.stringify(oldTags));
       setTagInput('');
       setTags(oldTags);
     }
+  };
+
+  const onRemoveTag = removeTag => {
+    var oldTags = tags;
+    var index = oldTags.indexOf(removeTag);
+    if (index > -1) {
+      oldTags.splice(index, 1);
+    } else {
+      console.log("tag not found");
+    }
+    setTags(oldTags);
+    forceUpdate();
   };
 
   const saveMemory = (uri, title, description) => {
@@ -83,7 +94,7 @@ export default function MemoryPicker(props) {
       setImage(null);
       props.navigation.navigate("View")
     });
-  }
+  };
 
   return (
     <KeyboardAvoidingView behavior={"height"} style={styles.view}>
@@ -110,6 +121,7 @@ export default function MemoryPicker(props) {
           />}
           {image && <TagList
             tags={tags}
+            onTagPress={onRemoveTag}
           />}
           {image && <TextInput
             style={styles.input}
@@ -126,6 +138,11 @@ export default function MemoryPicker(props) {
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
+}
+
+function useForceUpdate() {
+  const [value, setValue] = useState(0);
+  return [() => setValue(value + 1), value];
 }
 
 const styles = StyleSheet.create({
