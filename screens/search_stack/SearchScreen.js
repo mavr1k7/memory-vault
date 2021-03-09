@@ -89,11 +89,11 @@ export default class SearchScreen extends Component {
   }
 
   onSearch = () => {
-    console.log('applied Tags', appliedTags.length);
     this.props.navigation.navigate("SearchResults",
         {
           searchText: this.state.searchInput,
           searchTags: appliedTags,
+          viewStack: false,
         });
   }
 

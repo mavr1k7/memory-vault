@@ -155,13 +155,15 @@ export default class FlatListSlider extends Component {
             LayoutAnimation.configureNext(LayoutAnimation.Presets.easeIn);
         }
         this.setState({index: this.state.index + 1});
+        let index = this.state.index % this.state.data.length;
         this.slider.current.scrollToIndex({
-            index: this.state.index,
+            index: index,
             animated: true,
         });
     };
 
     startAutoPlay = () => {
+        this.stopAutoPlay();
         this.sliderTimer = setInterval(
             this.changeSliderListIndex,
             this.props.timer,

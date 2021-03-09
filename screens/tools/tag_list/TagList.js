@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import MemoryTag from "./MemoryTag";
-import {FlatList, StyleSheet} from "react-native";
+import {FlatList, StyleSheet, View, Text} from "react-native";
 
 export default class TagList extends Component {
     static defaultProps = {
@@ -12,7 +12,6 @@ export default class TagList extends Component {
     }
 
     onTagPress = this.props.onTagPress ? this.props.onTagPress: (tag) => {
-        console.log(tag)
         this.props.navigation.navigate("ViewTag", {
             searchText: '',
             searchTags: [tag],
@@ -36,10 +35,15 @@ export default class TagList extends Component {
                 data={this.props.tags}
                 renderItem={renderTag}
                 keyExtractor={item => item.id}
+                ListEmptyComponent={
+                    <View style={styles.no_items}>
+                        <Text style={styles.no_items_text}>No Tags</Text>
+                    </View>
+                }
             />
         )
     }
-}
+};
 
 const styles = StyleSheet.create({
     list: {
@@ -47,4 +51,12 @@ const styles = StyleSheet.create({
         height: 40,
         marginVertical: 10,
     },
+    no_items: {
+        justifyContent: 'center',
+    },
+    no_items_text: {
+        fontSize: 18,
+        color: '#aaa',
+        marginHorizontal: 20,
+    }
 })

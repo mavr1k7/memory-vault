@@ -59,6 +59,7 @@ export default class SearchResultsScreen extends Component {
         let searchText = this.props.navigation.state.params.searchText;
         let searchTags = this.props.navigation.state.params.searchTags;
         let viewStack = this.props.navigation.state.params.viewStack;
+        console.log(viewStack);
         // Search through memories and populate the results array for display
         var results = []
         let textResults = []
@@ -97,11 +98,11 @@ export default class SearchResultsScreen extends Component {
         const Memory = ({ item, index }) => (
             <TouchableOpacity style={styles.memory_block} onPress={() => {
                 if (viewStack) {
-                    this.props.navigation.navigate('SearchMemory', {
+                    this.props.navigation.navigate('Memory', {
                         memory: item,
                     });
                 } else {
-                    this.props.navigation.navigate('Memory', {
+                    this.props.navigation.navigate('SearchMemory', {
                         memory: item,
                     });
                 }
