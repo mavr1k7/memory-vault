@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, SafeAreaView, ScrollView} from 'react-native';
 import TagList from "../tools/tag_list/TagList";
 
-var allTags = [{tag:'tag1', id: '0'}, {tag: 'tag2', id: '1'}, {tag: 'tag3', id: '9'}, {tag: 'tag3tag3tag3tag3', id: '2'}, {tag: 'tag4', id: '3'},
-  {tag: 'tag5', id: '4'}, {tag: 'tag6', id: '5'}, {tag: 'tag7', id: '6'}, {tag: 'tag8', id: '7'}, {tag: 'tag9', id: '8'},];
+var allTags = [{tag:'tag1', id: '0'}, {tag: 'tag2', id: '1'}, {tag: 'tag3', id: '9'}, {tag:'Isaac', id: '3'}];
 var appliedTags = [];
 var filteredTags = allTags;
 
