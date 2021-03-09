@@ -3,12 +3,15 @@ import { StyleSheet, TouchableWithoutFeedback, KeyboardAvoidingView, Image, View
 import * as ImagePicker from 'expo-image-picker';
 import Database from '../../database';
 import Icon from '@expo/vector-icons/Ionicons';
+import TagList from "../tools/tag_list/TagList";
 import { TextInput } from 'react-native-gesture-handler';
 
 export default function MemoryPicker(props) {
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [tags, setTags] = useState([]);
+  const [tagInput, setTagInput] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -54,6 +57,22 @@ export default function MemoryPicker(props) {
       setImage(result.uri);
     }
   };
+  
+  const onTagAdd = inputTags => {
+    setTagInput(inputTags)
+    if (inputTags[inputTags.length -1] === ',') {
+      var oldTags = tags;
+      var tag = inputTags.substring(0, inputTags.length - 1);
+      console.log(tag)
+      oldTags.push({
+        tag:   tag,
+        id: Math.random().toString(),
+      });
+      console.log("tags: " + JSON.stringify(oldTags));
+      setTagInput('');
+      setTags(oldTags);
+    }
+  };
 
   const saveMemory = (uri, title, description) => {
     conn.transaction(tx => {
@@ -89,11 +108,16 @@ export default function MemoryPicker(props) {
             autoCorrect={false}
             onChangeText={descriptionInputHandler}
           />}
+          {image && <TagList
+            tags={tags}
+          />}
           {image && <TextInput
             style={styles.input}
             placeholder="Tags"
             autoCapitalize="none"
             autoCorrect={false}
+            value={tagInput}
+            onChangeText={onTagAdd}
           />}
           {image && <TouchableOpacity style={styles.submit} onPress={() => saveMemory(image, title, description)}>
             <Text>Save</Text>
