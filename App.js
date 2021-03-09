@@ -54,24 +54,7 @@ export default function App() {
 
 const HomeStack = createStackNavigator({
   Home: { screen: HomeScreen },
-  JoinBlock: {
-    screen: JoinBlockScreen,
-    navigationOptions: {
-      title: 'Join a Block'
-    }
-  },
-  InvitationCode: {
-    screen: InvitationCodeScreen,
-    navigationOptions: {
-      title: 'Join a Block'
-    }
-  },
-  SearchBlocks: {
-    screen: SearchBlocksScreen,
-    navigationOptions: {
-      title: 'Join a Block'
-    }
-  }
+  HomeMemory: { screen: MemoryScreen, navigationOptions: {title: ""} },
 
 });
 
