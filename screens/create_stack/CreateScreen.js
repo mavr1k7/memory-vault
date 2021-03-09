@@ -5,7 +5,7 @@ import Database from '../../database';
 import Icon from '@expo/vector-icons/Ionicons';
 import { TextInput } from 'react-native-gesture-handler';
 
-export default function MemoryPicker() {
+export default function MemoryPicker(props) {
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -62,6 +62,7 @@ export default function MemoryPicker() {
         console.log(JSON.stringify(rows))
       );
       setImage(null);
+      props.navigation.navigate("View")
     });
   }
 
