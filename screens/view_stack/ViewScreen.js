@@ -21,7 +21,7 @@ var data2 = [
       description: 'Today mom and dad took Isaac for a ride in the stroller for the first time. He had fun until he started to get a little cold, then he was upset.',
       images: [require('../view_stack/temp_images/IMG_5576.jpg'), require('../view_stack/temp_images/IMG_5576.jpg')],
       idx: 0,
-      tags: [{tag:'Isaac', id: '0'}]
+      tags: [{tag:'Isaac', id: '3'}]
   },
   {
       id: '1',
@@ -29,7 +29,7 @@ var data2 = [
       description: 'Isaac Jacob was born on January 29, 2021. He weighed 7lbs, 3oz and was 20 inches long',
       images: [require('../view_stack/temp_images/IMG_5159.jpg'), require('../view_stack/temp_images/IMG_5166.jpg')],
       idx: 0,
-      tags: [{tag:'tag1', id: '0'}, {tag: 'tag2', id: '1'}, {tag: 'tag3', id: '2'}],
+      tags: [{tag:'tag1', id: '0'}, {tag: 'tag2', id: '1'}, {tag: 'tag3', id: '2'}, {tag:'Isaac', id: '3'}],
   },
   {
       id: '2',
@@ -37,7 +37,7 @@ var data2 = [
       description: 'Isaac just started wearing 0-3 month clothes and likes to make lots of funny faces.',
       images: [require('../view_stack/temp_images/IMG_5205.jpg'), require('../view_stack/temp_images/IMG_5196.jpg')],
       idx: 0,
-      tags: [{tag:'tag1', id: '0'}, {tag: 'tag2', id: '1'}, {tag: 'tag3', id: '2'}],
+      tags: [{tag:'tag1', id: '0'}, {tag: 'tag2', id: '1'}, {tag: 'tag3', id: '2'}, {tag:'Isaac', id: '3'}],
   },
   {
       id: '3',
@@ -45,7 +45,7 @@ var data2 = [
       description: 'First day home and grandpa gets to meet his first grandson.',
       images: [require('../view_stack/temp_images/IMG_5225.jpg'), require('../view_stack/temp_images/IMG_5226.jpg')],
       idx: 0,
-      tags: [{tag:'tag1', id: '0'}, {tag: 'tag2', id: '1'}, {tag: 'tag3', id: '2'}],
+      tags: [{tag:'tag1', id: '0'}, {tag: 'tag2', id: '1'}, {tag: 'tag3', id: '2'}, {tag:'Isaac', id: '3'}],
   },
   {
       id: '4',
@@ -53,7 +53,7 @@ var data2 = [
       description: 'Isaac and Ryder were born on the same day. We are good friends with their parents Kaleb and Mary and hope that these little guys will grow up to be great friends.',
       images: [require('../view_stack/temp_images/IMG_5330.jpg'), require('../view_stack/temp_images/IMG_5331.jpg')],
       idx: 0,
-      tags: [{tag:'tag1', id: '0'}, {tag: 'tag2', id: '1'}, {tag: 'tag3', id: '2'}],
+      tags: [{tag:'tag1', id: '0'}, {tag: 'tag2', id: '1'}, {tag: 'tag3', id: '2'}, {tag:'Isaac', id: '3'}],
   },
   {
       id: '5',
@@ -61,7 +61,7 @@ var data2 = [
       description: 'Isaac had his first bath today. He pooped all over mommy and daddy, but it was nice for him to be clean.',
       images: [require('../view_stack/temp_images/IMG_5496.jpg'), require('../view_stack/temp_images/IMG_5497.jpg')],
       idx: 0,
-      tags: [{tag:'tag1', id: '0'}, {tag: 'tag2', id: '1'}, {tag: 'tag3', id: '2'}],
+      tags: [{tag:'tag1', id: '0'}, {tag: 'tag2', id: '1'}, {tag: 'tag3', id: '2'}, {tag:'Isaac', id: '3'}],
   },
 ];
 
