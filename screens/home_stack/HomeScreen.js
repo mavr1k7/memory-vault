@@ -15,6 +15,7 @@ var data = [
         description: 'Isaac Jacob was born on January 29, 2021. He weighed 7lbs, 3oz and was 20 inches long',
         images: [require('../view_stack/temp_images/IMG_5159.jpg'), require('../view_stack/temp_images/IMG_5166.jpg')],
         idx: 0,
+
     },
     {
         id: '2',

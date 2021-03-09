@@ -16,6 +16,14 @@ import {
 //TODO: Get real data from the database
 var data2 = [
   {
+      id: '6',
+      title: 'Stroller Ride',
+      description: 'Today mom and dad took Isaac for a ride in the stroller for the first time. He had fun until he started to get a little cold, then he was upset.',
+      images: [require('../view_stack/temp_images/IMG_5576.jpg'), require('../view_stack/temp_images/IMG_5576.jpg')],
+      idx: 0,
+      tags: [{tag:'Isaac', id: '0'}]
+  },
+  {
       id: '1',
       title: 'Happy Birthday',
       description: 'Isaac Jacob was born on January 29, 2021. He weighed 7lbs, 3oz and was 20 inches long',
