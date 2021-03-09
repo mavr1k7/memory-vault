@@ -5,6 +5,7 @@ import MemoryTag from "../tools/tag_list/MemoryTag";
 import TagList from "../tools/tag_list/TagList";
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export default class MemoryScreen extends Component {
     render() {
@@ -31,6 +32,9 @@ export default class MemoryScreen extends Component {
                             data={IMAGES}
                             imageKey={'image'}
                             width={SCREEN_WIDTH}
+                            height={SCREEN_HEIGHT / 2.5}
+                            resizeMethod={'scale'}
+                            resizeMode="contain"
                             local={true}
                             separator={0}
                             loop={false}
