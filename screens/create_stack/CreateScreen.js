@@ -27,7 +27,7 @@ export default function MemoryPicker(props) {
     conn.transaction(tx => {
       tx.executeSql('drop table if exists images;');
       tx.executeSql(
-        'create table if not exists images (id integer primary key not null, path string, title string, description string);'
+        'create table if not exists images (id integer primary key not null, title string, description string, images);'
       );
     });
   }, []);
@@ -88,6 +88,12 @@ export default function MemoryPicker(props) {
             autoCapitalize="none"
             autoCorrect={false}
             onChangeText={descriptionInputHandler}
+          />}
+          {image && <TextInput
+            style={styles.input}
+            placeholder="Tags"
+            autoCapitalize="none"
+            autoCorrect={false}
           />}
           {image && <TouchableOpacity style={styles.submit} onPress={() => saveMemory(image, title, description)}>
             <Text>Save</Text>
