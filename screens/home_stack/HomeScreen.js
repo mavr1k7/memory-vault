@@ -103,7 +103,7 @@ export default function HomeScreen(props) {
     <View style={styles.container}>
         <SafeAreaView>
             <ScrollView>
-                <Image style={styles.logo} source={require('../../assets/logo/Asset_6.png')} />
+                <Image style={styles.logo} source={require('../../assets/logo/Asset_9.png')} />
                 <FlatListSlider
                     data={IMAGES}
                     imageKey={'image'}
@@ -177,6 +177,8 @@ const styles = StyleSheet.create({
   logo: {
     width: '80%',
     resizeMode: 'contain',
+    alignItems: 'center',
+    marginHorizontal: 15,
   },
   logoDescription:{
     fontSize: 15,

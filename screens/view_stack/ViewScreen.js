@@ -11,6 +11,8 @@ import {
     LayoutAnimation
 } from 'react-native';
 
+
+
 //TODO: Get real data from the database
 var data2 = [
     {
