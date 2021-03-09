@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity, FlatList, Image} from 'react-native';
+import openDatabase from "../../database";
 
 const memories = [
     {
@@ -54,6 +55,7 @@ const memories = [
 
 export default class SearchResultsScreen extends Component {
     static defaultProps = {
+        memories: [],
         searchText: '',
         searchTags: [],
         viewStack: false,
@@ -61,11 +63,59 @@ export default class SearchResultsScreen extends Component {
         // endDate: '',
     }
 
+    state = {
+        memories: this.props.memories,
+        searchText: this.props.searchText,
+        searchTags: this.props.searchTags,
+        viewStack: this.props.viewStack,
+    }
+
+
+    componentDidMount(){
+        let loadMemories = async () => {
+            let db = await openDatabase();
+            db.transaction(tx => {
+                let memories = [];
+                tx.executeSql("select * from memory", [], (_, response) =>{
+
+                    // Populate memories list
+                    for (let i = 0; i < response.rows.length; i++){
+                        let memory = response.rows.item(i);
+                        memories.push({
+                            id: memory.id.toString(),
+                            title: memory.title,
+                            description: memory.description,
+                            images: [],
+                            tags: [],
+                            idx: 0,
+                        });
+                        tx.executeSql('SELECT path from image where id IN (SELECT image FROM "memory-image" WHERE memory=?);', [memory.id], (_, result)=>{
+                            let images = [];
+                            for (let i = 0; i < result.rows.length; i++){
+                                images.push(result.rows.item(i).path);
+                            }
+                            memories[i].images = images;
+                        });
+                        tx.executeSql('SELECT * from tag where id IN (SELECT tag FROM "memory-tag" WHERE memory=?);', [memory.id], (_, result)=>{
+                            memories[i].tags = result.rows._array;
+                        });
+                    }
+
+                    this.setState({memories: memories})
+                });
+            })
+        }
+        if (!this.props.memories.length) {
+            console.log('loading memories');
+            loadMemories().then();
+        }
+    }
+
     render() {
         let searchText = this.props.navigation.state.params.searchText;
         let searchTags = this.props.navigation.state.params.searchTags;
         let viewStack = this.props.navigation.state.params.viewStack;
-        console.log(viewStack);
+        let memories = this.state.memories ? this.state.memories : this.props.memories;
         // Search through memories and populate the results array for display
         var results = []
         let textResults = []
@@ -115,7 +165,7 @@ export default class SearchResultsScreen extends Component {
             }}>
                 <Image
                     style={styles.memory_image}
-                    source={item.images[item.idx]}
+                    source={{uri: item.images[item.idx]}}
                 />
                 <View style={styles.memory_title_block}>
                     <Text style={styles.memory_title}>{item.title}</Text>

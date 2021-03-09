@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     LayoutAnimation
 } from 'react-native';
+import openDatabase from "../../database";
 
 
 
@@ -67,26 +68,29 @@ var data2 = [
 
 export default class ViewScreen extends Component {
     static defaultProps = {
-        data: data2,
+        memories: [],
     }
 
-    constructor(props) {
-        super(props)
-
+    state = {
+        memories: this.props.memories,
     }
+
 
     render() {
+        if (!this.state.memories.length) {
+            this.loadMemories().then()
+        }
+        // console.log(this.state.memories)
       // Defines a Memory tag to be used in the FlatList
       const Memory = ({ item, index }) => (
           <TouchableOpacity style={styles.memory_block} onPress={() => {
             this.props.navigation.navigate('Memory', {
               memory: item,
-              title: "TEST NAME",
             });
           }}>
             <ImageBackground
                 style={styles.memory_image}
-                source={item.images[item.idx]}
+                source={{uri: item.images[item.idx]}}
             >
               <View style={styles.memory_spacer}/>
               <Text style={styles.memory_title}>{item.title}</Text>
@@ -99,10 +103,10 @@ export default class ViewScreen extends Component {
         return (<Memory item={item} index={index}/>);
       };
 
-      return (
+        return (
           <SafeAreaView style={styles.container}>
             <FlatList
-                data={this.props.data}
+                data={this.state.memories}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
                 numColumns={2}
@@ -123,8 +127,51 @@ export default class ViewScreen extends Component {
       );
     }
 
-    componentDidMount() {
-        this.startAutoPlay();
+    async loadMemories () {
+        let db = await openDatabase();
+        db.transaction(tx => {
+            let memories = [];
+            tx.executeSql("select * from memory", [], async (_, response) =>{
+
+                // Populate memories list
+                for (let i = 0; i < response.rows.length; i++){
+                    let memory = response.rows.item(i);
+                    memories.push({
+                        id: memory.id,
+                        title: memory.title,
+                        description: memory.description,
+                        images: [],
+                        tags: [],
+                        idx: 0,
+                    });
+
+                    tx.executeSql('SELECT path from image where id IN (SELECT image FROM "memory-image" WHERE memory=?);', [memory.id], (_, result)=>{
+                        let images = [];
+                        for (let i = 0; i < result.rows.length; i++){
+                            images.push(result.rows.item(i).path);
+                        }
+                        memories[i]["images"] = images;
+                        console.log(memories[i].images);
+                    });
+                    tx.executeSql('SELECT * from tag where id IN (SELECT tag FROM "memory-tag" WHERE memory=?);', [memory.id], (_, result)=>{
+                        memories[i].tags = result.rows._array;
+                    });
+                }
+
+                console.log(memories)
+                this.setState({memories: memories})
+            });
+        })
+    }
+
+    componentDidMount(){
+
+        if (!this.state.memories || !this.state.memories.length) {
+            console.log('loading memories');
+            this.loadMemories().then();
+        }
+
+        // this.startAutoPlay();
     }
 
     componentWillUnmount() {
@@ -153,9 +200,9 @@ export default class ViewScreen extends Component {
     changeRandomImage = () => {
         let viewableIndex = Math.floor(Math.random() * this.viewableItems.length);
         let selectedItem = this.viewableItems[viewableIndex];
-        this.props.data[selectedItem.index].idx = (this.props.data[selectedItem["index"]].idx + 1) %
-                this.props.data[selectedItem["index"]].images.length
-        this.setState({data: this.props.data})
+        this.state.memories[selectedItem.index].idx = (this.state.memories[selectedItem["index"]].idx + 1) %
+                this.state.memories[selectedItem["index"]].images.length
+        this.setState({memories: this.state.memories})
     }
 
 }

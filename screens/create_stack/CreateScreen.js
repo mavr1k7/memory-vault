@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, KeyboardAvoidingView, Image, View, Platform, TouchableOpacity, Keyboard, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import Database from '../../database';
+import openDatabase from '../../database';
 import Icon from '@expo/vector-icons/Ionicons';
 import TagList from "../tools/tag_list/TagList";
 import { TextInput } from 'react-native-gesture-handler';
@@ -25,16 +25,15 @@ export default function MemoryPicker(props) {
     })();
   }, []);
 
-  const conn = Database.getConnection();
 
-  useEffect(() => {
+  /*useEffect(() => {
     conn.transaction(tx => {
       tx.executeSql('drop table if exists images;');
       tx.executeSql(
         'create table if not exists images (id integer primary key not null, title string, description string, images);'
       );
     });
-  }, []);
+  }, []);*/
 
   const titleInputHandler = inputTitle => {
     setTitle(inputTitle);
@@ -46,7 +45,7 @@ export default function MemoryPicker(props) {
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       aspect: [4, 3],
       allowsEditing: true,
       quality: 0.1,
@@ -58,12 +57,13 @@ export default function MemoryPicker(props) {
       setImage(result.uri);
     }
   };
-  
+
   const onTagAdd = inputTags => {
     setTagInput(inputTags)
     if (inputTags[inputTags.length -1] === ',') {
       var oldTags = tags;
       var tag = inputTags.substring(0, inputTags.length - 1);
+
       oldTags.push({
         tag:   tag,
         id: Math.random().toString(),
@@ -85,14 +85,89 @@ export default function MemoryPicker(props) {
     forceUpdate();
   };
 
-  const saveMemory = (uri, title, description) => {
-    conn.transaction(tx => {
-      tx.executeSql('insert into images (path, title, description) values (?, ?, ?);', [uri, title, description]);
-      tx.executeSql('select * from images', [], (_, { rows }) =>
-        console.log(JSON.stringify(rows))
-      );
-      setImage(null);
-      props.navigation.navigate("View")
+  const saveMemory = (uri, title, description, tags) => {
+    console.log(uri);
+    async function save() {
+      const conn = await openDatabase()
+      // Insert memory
+      let memoryId, imageId;
+      await conn.transaction(tx => {
+        tx.executeSql('insert into memory (title, description) values (?, ?)', [title, description], (_, result) => {
+          memoryId = result.insertId;
+        }, (_, error) => {
+          console.log(error);
+        });
+      })
+      await conn.transaction(tx => {
+        // Insert image and connect with memory (loop these lines to input multiple images)
+        tx.executeSql('insert into image (path) values (?);', [uri], (_, result) => {
+          imageId = result.insertId;
+          console.log(imageId, memoryId);
+          tx.executeSql('insert into "memory-image" (image, memory) VALUES (?, ?);', [imageId, memoryId]);
+        });
+      })
+      await conn.transaction(tx => {
+
+        // Connect tags with new memory
+        console.log('tags len', tags.length);
+        for (let i = 0; i < tags.length; i++) {
+          let tag = tags[i];
+          console.log('tag: ',tag.tag);
+          tx.executeSql("select * from tag where lower(tag)=lower(?);", [tag.tag], (tx, result) => {
+            if (result.rows.length === 0) {
+              // Tag doesn't exist, create it
+              tx.executeSql("insert into tag (tag) values (?);", [tag.tag], () => {
+                tx.executeSql("select * from tag where lower(tag)=lower(?);", [tag.tag], (tx, result) => {
+                  // Connect tag with memory in memory-tag
+                  let tagId = result.rows.item(0);
+                  tx.executeSql('insert into "memory-tag" (memory, tag) values (?,?);', [memoryId, tagId]);
+                })
+              });
+            } else {
+              tx.executeSql("select * from tag where lower(tag)=lower(?);", [tag.tag], (tx, result) => {
+                // Connect tag with memory in memory-tag
+                let tagId = result.rows.item(0);
+                tx.executeSql('insert into "memory-tag" (memory, tag) values (?,?);', [memoryId, tagId]);
+              })
+            }
+          })
+        }
+      })
+      await conn.transaction(tx => {
+
+        let displayContents = false;
+        // Log memories to console
+        tx.executeSql('select * from memory;', [], (_, result ) =>{
+          if(displayContents) {
+            console.log(result.rows);
+          }
+        });
+        tx.executeSql('select * from image;', [], (_, result)=> {
+          if(displayContents) {
+            console.log(result.rows);
+          }
+        });
+        tx.executeSql('select * from tag;', [], (_, result)=> {
+          if(!displayContents) {
+            console.log(result.rows);
+          }
+        });
+        tx.executeSql('select * from "memory-image";', [], (_, result)=> {
+          if(displayContents) {
+            console.log(result.rows);
+          }
+        });
+        tx.executeSql('select * from "memory-tag";', [], (_, result)=> {
+          if(!displayContents) {
+            console.log(result.rows);
+          }
+        });
+        setImage(null);
+        props.navigation.navigate("View", {memories: []});
+      });
+    }
+    save().then(()=>{
+      console.log('Memory Saved')
     });
   };
 
@@ -131,7 +206,7 @@ export default function MemoryPicker(props) {
             value={tagInput}
             onChangeText={onTagAdd}
           />}
-          {image && <TouchableOpacity style={styles.submit} onPress={() => saveMemory(image, title, description)}>
+          {image && <TouchableOpacity style={styles.submit} onPress={() => saveMemory(image, title, description, tags)}>
             <Text>Save</Text>
           </TouchableOpacity>}
         </View>

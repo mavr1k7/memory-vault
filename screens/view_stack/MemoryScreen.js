@@ -12,16 +12,11 @@ export default class MemoryScreen extends Component {
         const memory = this.props.navigation.state.params.memory;
         // TODO: set header text to memory title
         // TODO: get all images from memory when memories are no longer dummy data
-        const IMAGES = [
-            {
-                image: memory.images[0],
-                desc: "Description 1",
-            },
-            {
-                image: memory.images[1],
-                desc: "Description 2 is much longer than Description 1",
-            },
-        ]
+        let images = []
+
+        for (let i = 0; i < memory.images.length; i++){
+            images.push({image: memory.images[i]})
+        }
 
         return (
             <View style={styles.container}>
@@ -29,13 +24,13 @@ export default class MemoryScreen extends Component {
                     <ScrollView>
                         <View style={styles.spacer}/>
                         <FlatListSlider
-                            data={IMAGES}
+                            data={images}
                             imageKey={'image'}
                             width={SCREEN_WIDTH}
                             height={SCREEN_HEIGHT / 2.5}
                             resizeMethod={'scale'}
                             resizeMode="contain"
-                            local={true}
+                            local={false}
                             separator={0}
                             loop={false}
                             autoscroll={false}
